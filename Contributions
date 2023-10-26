@@ -1,0 +1,95 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Defining class 'Car'
+class Car {
+public:
+    string licenseNumber;
+    string brand;
+    string model;
+    string owner;
+
+    Car(string licenseNumber, string brand, string model, string owner) {
+        this->licenseNumber = licenseNumber;
+        this->brand = brand;
+        this->model = model;
+        this->owner = owner;
+    }
+};
+
+// Defining class 'LicenseManager'
+class LicenseManager {
+private:
+    vector<Car> cars;
+
+public:
+    void addCar(Car car) {
+        cars.push_back(car);
+    }
+
+    void removeCar(string licenseNumber) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].licenseNumber == licenseNumber) {
+                cars.erase(cars.begin() + i);
+                break;
+            }
+        }
+    }
+
+    void updateCarOwner(string licenseNumber, string newOwner) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].licenseNumber == licenseNumber) {
+                cars[i].owner = newOwner;
+                break;
+            }
+        }
+    }
+
+    Car findCar(string licenseNumber) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars[i].licenseNumber == licenseNumber) {
+                return cars[i];
+            }
+        }
+        // If the car is not found, return an empty car
+        return Car("", "", "", "");
+    }
+
+    void printCars() {
+        for (int i = 0; i < cars.size(); i++) {
+            cout << "License Number: " << cars[i].licenseNumber << endl;
+            cout << "Brand: " << cars[i].brand << endl;
+            cout << "Model: " << cars[i].model << endl;
+            cout << "Owner: " << cars[i].owner << endl;
+            cout << "-----------------------------------" << endl;
+        }
+    }
+};
+
+int main() {
+    LicenseManager lm;
+
+    // Adding cars
+    lm.addCar(Car("KA-01-0001", "Toyota", "Corolla", "Alice"));
+    lm.addCar(Car("KA-01-0002", "Honda", "City", "Bob"));
+
+    // Removing a car
+    lm.removeCar("KA-01-0001");
+
+    // Updating a car's owner
+    lm.updateCarOwner("KA-01-0002", "Charlie");
+
+    // Finding a car
+    Car car = lm.findCar("KA-01-0002");
+    cout << "Brand: " << car.brand << endl;
+    cout << "Model: " << car.model << endl;
+    cout << "Owner: " << car.owner << endl;
+
+    // Printing all cars
+    lm.printCars();
+
+    return 0;
+}
